@@ -1,3 +1,4 @@
+
 <div>
     <div
         style="
@@ -27,7 +28,8 @@
             </h2>
             <p class="text-gray-700">
                 Com o <strong>Prêmios Pix+</strong>, você interage com vídeos de parceiros e, ao atingir certas metas de
-                visualização, recebe recompensas automaticamente liberadas na plataforma. É simples, transparente e confiável.
+                visualização, recebe recompensas automaticamente liberadas na plataforma. É simples, transparente e
+                confiável.
             </p>
         </section>
 

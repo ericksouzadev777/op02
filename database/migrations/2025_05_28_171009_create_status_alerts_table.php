@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('status_alerts', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active')->default(true)->comment('1 = ativo, 0 = desativado');
             $table->timestamps();
         });
     }
