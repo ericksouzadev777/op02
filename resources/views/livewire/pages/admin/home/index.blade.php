@@ -87,4 +87,35 @@
             </tbody>
         </table>
     </div>
+
+    {{-- ➤ Nova tabela de Usuários --}}
+    <div class="bg-white shadow rounded-lg p-6 overflow-x-auto mt-8">
+        <h3 class="text-lg font-semibold mb-4">Usuários com IP e Dispositivo Registrados</h3>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nome</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">IP Address</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Device Info</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Criado em</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            @foreach($users as $user)
+                <tr>
+                    <td class="px-4 py-2 text-sm text-gray-700">{{ $user->id }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-700">{{ $user->name }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-700">{{ $user->ip_address }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-700">
+                        <div class="max-w-xs truncate">{{ $user->device_info }}</div>
+                    </td>
+                    <td class="px-4 py-2 text-sm text-gray-700">
+                        {{ $user->created_at->format('d/m/Y H:i') }}
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
