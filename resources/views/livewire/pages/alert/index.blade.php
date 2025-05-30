@@ -63,11 +63,6 @@
                 </a>
             </div>
 
-            <div class="flex items-center justify-center">
-                <p class="font-inter text-2xl md:text-xl font-extrabold mb-6 w-[80%] mt-8">
-                    Como Funciona?
-                </p>
-            </div>
             <!-- Seção “Como funciona?” -->
             <section class="bg-blue-800 text-white text-center px-4 py-8 md:py-12">
                 <!-- Título -->
