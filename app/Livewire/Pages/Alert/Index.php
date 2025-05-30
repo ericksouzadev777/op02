@@ -29,7 +29,7 @@ class Index extends Component
         ]);
 
         // redireciona para a home do funil
-        return redirect()->route('funnel.home');
+        return redirect()->route('funnel.step.1');
     }
 
     public function render()

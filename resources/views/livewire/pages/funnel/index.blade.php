@@ -5,6 +5,9 @@
     class="flex flex-col w-[90%] sm:w-[24%] m-auto pt-6 gap-3"
 >
 
+    {{-- áudio --}}
+    <audio x-ref="audio" src="{{ asset('money.mp3') }}"></audio>
+
     {{-- Barra de progresso --}}
     <div class="w-[90%] bg-gray-200 rounded-full h-3 overflow-hidden m-auto">
         <div class="bg-black h-3" style="width: {{ $progress }}%"></div>
@@ -42,7 +45,7 @@
 
     {{-- Botão Continuar --}}
     <button
-        @click="open = true; startAnimation(16.84); showConfetti()"
+        @click="open = true; playSound(); startAnimation(16.84); showConfetti()"
         class="w-full py-4 bg-blue-700 text-white font-semibold rounded-lg transition hover:bg-blue-800"
     >
         Continuar
@@ -87,11 +90,12 @@
         return {
             open: false,
             display: 0,
+
             startAnimation(target) {
                 const from    = 0;
                 const diff    = target - from;
                 let   startTs = null;
-                const duration = 800; // ms
+                const duration = 800;
 
                 const step = (ts) => {
                     if (!startTs) startTs = ts;
@@ -101,20 +105,22 @@
                 };
                 requestAnimationFrame(step);
             },
+
             showConfetti() {
-                // 4 bursts de confetes com partículas maiores e espalhadas
                 for (let i = 0; i < 4; i++) {
                     confetti({
-                        particleCount: 120,      // mais partículas
-                        spread: 360,             // full circle
-                        startVelocity: 20,       // mais velocidade
-                        origin: {
-                            x: Math.random(),      // posições aleatórias na largura
-                            y: 0
-                        },
-                        scalar: 1.4              // aumenta o tamanho dos confetes
+                        particleCount: 120,
+                        spread: 360,
+                        startVelocity: 20,
+                        origin: { x: Math.random(), y: 0 },
+                        scalar: 1.4
                     });
                 }
+            },
+
+            playSound() {
+                this.$refs.audio.currentTime = 0;
+                this.$refs.audio.play();
             },
         }
     }
