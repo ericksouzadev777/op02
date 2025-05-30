@@ -1,40 +1,35 @@
-<div class="max-w-md mx-auto p-4 space-y-6">
+{{-- 2) wrapper do seu bloco atual, ativando Alpine --}}
+<div
+    x-data="rewardDemo()"
+    x-cloak
+    class="flex flex-col w-[90%] sm:w-[24%] m-auto pt-6 gap-3"
+>
 
     {{-- Barra de progresso --}}
-    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-        <div class="bg-black h-2" style="width: {{ $progress }}%"></div>
+    <div class="w-[90%] bg-gray-200 rounded-full h-3 overflow-hidden m-auto">
+        <div class="bg-black h-3" style="width: {{ $progress }}%"></div>
     </div>
 
     {{-- Título --}}
-    <h2 class="text-2xl font-bold text-center">
+    <h2 class="pt-5 text-center font-semibold text-[28px] leading-tight">
         Como você avalia sua experiência geral no Aplicativo?
     </h2>
 
     {{-- Subtítulo --}}
-    <p class="text-center text-gray-500 text-sm">
+    <p class="text-center text-gray-700 text-xl">
         Selecione uma ou mais opções para continuar
     </p>
 
-    @php
-        // pega a etapa atual
-        $step = $steps[$current];
-    @endphp
+    @php $step = $steps[$current]; @endphp
 
     {{-- Lista de opções --}}
     <div class="space-y-3">
         @foreach($step->options as $option)
-            <label
-                class="flex items-center justify-between
-               bg-white border border-gray-200 rounded-lg p-4"
-            >
-                <div class="flex items-center space-x-3">
-                    {{-- ícone --}}
+            <label class="flex justify-between items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition">
+                <div class="flex items-center gap-2">
                     <span class="text-2xl">{!! $option->icon !!}</span>
-                    {{-- texto --}}
-                    <span class="text-base font-medium">{{ $option->name }}</span>
+                    <span class="font-medium">{{ $option->name }}</span>
                 </div>
-
-                {{-- checkbox --}}
                 <input
                     type="checkbox"
                     wire:model="selectedOptions"
@@ -45,22 +40,82 @@
         @endforeach
     </div>
 
-    {{-- Botão Continuar só habilita se marcou ao menos uma --}}
+    {{-- Botão Continuar --}}
     <button
-        wire:click="answer"
-
-        class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg
-           hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        @click="open = true; startAnimation(16.84); showConfetti()"
+        class="w-full py-4 bg-blue-700 text-white font-semibold rounded-lg transition hover:bg-blue-800"
     >
         Continuar
     </button>
 
     {{-- Link de bônus --}}
-    <a
-        href="#"
-        class="block text-center mt-2 bg-green-50 text-green-600 font-medium py-2 rounded-lg"
-    >
+    <a href="#"
+       class="block text-center mt-2 bg-green-50 text-green-600 font-medium py-2 rounded-lg mb-5">
         Concorra a um bônus adicional
     </a>
 
+    {{-- === 3) o modal inline === --}}
+    <div
+        x-show="open"
+        x-transition.opacity
+        class="fixed inset-0 flex items-center justify-center z-50"
+    >
+        {{-- backdrop --}}
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        {{-- conteúdo do modal --}}
+        <div class="bg-white rounded-xl p-6 relative z-10 w-full max-w-sm text-center space-y-4">
+            <h2 class="text-xl font-bold">Você ganhou</h2>
+            <p class="text-5xl font-extrabold">
+                R$ <span x-text="display.toFixed(2)"></span>
+            </p>
+            <p class="text-gray-600">
+                Responda mais pesquisas para ganhar até R$1559
+            </p>
+            <button
+                @click="open = false"
+                class="mt-4 bg-black text-white py-2 px-6 rounded-full w-full"
+            >
+                Fechar
+            </button>
+        </div>
+    </div>
 </div>
+
+<script>
+    function rewardDemo() {
+        return {
+            open: false,
+            display: 0,
+            startAnimation(target) {
+                const from    = 0;
+                const diff    = target - from;
+                let   startTs = null;
+                const duration = 800; // ms
+
+                const step = (ts) => {
+                    if (!startTs) startTs = ts;
+                    const progress = Math.min((ts - startTs) / duration, 1);
+                    this.display = from + diff * progress;
+                    if (progress < 1) requestAnimationFrame(step);
+                };
+                requestAnimationFrame(step);
+            },
+            showConfetti() {
+                // 4 bursts de confetes com partículas maiores e espalhadas
+                for (let i = 0; i < 4; i++) {
+                    confetti({
+                        particleCount: 120,      // mais partículas
+                        spread: 360,             // full circle
+                        startVelocity: 20,       // mais velocidade
+                        origin: {
+                            x: Math.random(),      // posições aleatórias na largura
+                            y: 0
+                        },
+                        scalar: 1.4              // aumenta o tamanho dos confetes
+                    });
+                }
+            },
+        }
+    }
+</script>

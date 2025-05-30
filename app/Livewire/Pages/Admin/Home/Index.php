@@ -11,6 +11,7 @@ class Index extends Component
 {
     public $name;
     public $link;
+    public $showModal = false;
 
     protected $rules = [
         'name' => 'required|string|max:255',

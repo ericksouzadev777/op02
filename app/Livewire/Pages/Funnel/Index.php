@@ -47,7 +47,6 @@ class Index extends Component
     public function render()
     {
         $total = count($this->steps);
-        // progride uma etapa preenchida por vez (0 => 1/total, 1 => 2/total, ...)
         $progress = round((($this->current + 1) / $total) * 100);
 
         return view('livewire.pages.funnel.index', compact('progress'))

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Funnel;
 use App\Models\StatusAlert;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class FunnelFixedSeeder extends Seeder
@@ -12,6 +11,7 @@ class FunnelFixedSeeder extends Seeder
     public function run(): void
     {
         StatusAlert::create();
+
         // 1. Cria o funil principal
         $funnel = Funnel::create([
             'name'           => 'Funil de Demonstração',
@@ -33,14 +33,14 @@ class FunnelFixedSeeder extends Seeder
                 'active' => true,
             ]);
 
-            // 2.2 Calcula valor base e “resto” para as 5 opções
-            $baseOpt   = intdiv($value, 5);
-            $remainder = $value % 5;
+            // 2.2 Calcula valor base e “resto” para as 4 opções
+            $baseOpt   = intdiv($value, 4);
+            $remainder = $value % 4;
 
-            for ($j = 1; $j <= 5; $j++) {
+            // 2.3 Cria cada uma das 4 opções (perguntas)
+            for ($j = 1; $j <= 4; $j++) {
                 $optAmount = $baseOpt + ($j <= $remainder ? 1 : 0);
 
-                // 2.3 Cria cada uma das 5 opções (perguntas)
                 $step->options()->create([
                     'name'   => "Pergunta {$index}.{$j}",
                     'amount' => $optAmount,
